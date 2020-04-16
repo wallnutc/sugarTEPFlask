@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Module Overview</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="static/css/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.js"></script>
+    <script src="static/scripts/charts.js"></script>
+</head>
+<body>
+<div  class="top_header">
+    <a style=" font-size: 50%; color: #ffffff; display: flex; justify-content: flex-end"></a>
+    <div class="scroll-left">
+        <p>My Module Overview </p>
+    </div>
+    <div class="clockContainer">
+        <div class="clockContainer">
+            <img src="static/M.png" style="position: absolute; left: 0px; top: 0px; width: 90px; margin: 10px;">
+        </div>
+    </div>
+</div> 
+
+<div  class="program_view" id="title"></div>
+<div  class="viewingModule" id="viewingButtons"> <p>Viewing</p></div>
+<div id="moduleListStart" class="activities"><p>Activities</p> </div>
+<div class="chart_contain_Module">
+    <canvas id="Pie1" class="canvas2" style= "width: 900px;
+    height: 450px;" ></canvas>
+    <canvas id="Pie2" class="canvas2" style= "width: 900px;
+    height: 450px;" ></canvas>
+</div>
+<div  class="updateContainer"><p>Update Assignment</p>
+    <form action="{{ url_for('moduleUpdate') }}" method="post">
+        <input type="text" class="updateBox" id="activity" name="activity"value="Activity ID" onfocus="if(this.value=='Activity ID') this.value='';" onblur="javascript: if(this.value==''){this.value='Activity ID';}"/><br/>
+        <input type="text" class="updateBox" id="start"name="start"value="Start Week" onfocus="if(this.value=='Start Week') this.value='';"onblur="javascript: if(this.value==''){this.value='Start Week';}"/><br/>
+        <input type="text" class="updateBox" id="end"name="end"value="End Week" onfocus="if(this.value=='End Week') this.value='';"onblur="javascript: if(this.value==''){this.value='End Week';}"/><br/>
+        <input type="text" class="updateBox" id="hours"name="hours"value="Total Hours"onfocus="if(this.value=='Total Hours') this.value='';"onblur="javascript: if(this.value==''){this.value='Total Hours';}"/><br/>
+        <br/>
+        <input type="submit" class="blockBack" style= "margin-left: 20px;"value="Update">
+    </form>
+</div> 
+
+    <script>
+        var canvas1 = document.getElementById("Pie1");
+        var title = document.getElementById("title");
+        var ctx1 = canvas1.getContext("2d");
+        var responseModules = JSON.parse('{{ moduleDetails | tojson | safe}}');
+        var responseHours = JSON.parse('{{ moduleHours | tojson | safe}}');
+        var responseGrade = JSON.parse('{{ moduleGrade | tojson | safe}}');
+        var responseList = JSON.parse('{{ activityList | tojson | safe}}');
+        var responseActivity = JSON.parse('{{ activityStacked | tojson | safe}}');
+        var moduleID = "{{moduleID | safe }}";
+        document.getElementById("title").innerText = responseModules.name;
+        function buttonFunction(e){location.href = "module" + e.target.id;}
+        var colorslist = ['rgba(199, 0, 57, 0.8)','rgba(255, 87, 51, 0.6)','rgba(255, 141, 26, 0.6)','rgba(237, 221, 83, 0.6)','rgba(87, 199, 133, 0.6)','rgba(0, 186, 173, 0.6)','rgba(42, 123, 155, 0.6)','rgba(61, 61, 107, 0.6)','rgba(81, 24, 73, 0.6)','rgba(144, 12, 63, 0.8)','rgba(63, 56, 68, 0.6)',];
+        var borderlist = ['rgba(199, 0, 57, 1)','rgba(255, 87, 51, 1)','rgba(255, 141, 26, 1)','rgba(237, 221, 83, 1)','rgba(173, 212, 92, 1)','rgba(87, 199, 133, 1)','rgba(0, 186, 173)','rgba(42, 123, 155, 1)','rgba(61, 61, 107, 1)','rgba(81, 24, 73, 1)','rgba(144, 12, 63, 1)','rgba(63, 56, 68, 1)',];
+        var body = document.getElementById("moduleListStart");
+        var button;
+        for (var j = 0; j < responseList.module_ID.length; j ++){
+            var node = document.createElement("UL");   // Create a <li> node
+            button = document.createElement("button");
+            button.classList.add('block');
+            node.classList.add('listpad');
+            button.innerHTML = responseList.module_ID[j] + " | " + responseList.name[j];
+            button.id = responseList.module_ID[j];
+            button.style.setProperty("--ModuleButton_colour", colorslist[j]);
+            button.style.setProperty("--ModuleBorder_colour", borderlist[j]);
+            button.addEventListener ("click", buttonFunction);
+            node.appendChild(button)
+            body.appendChild(node);
+        } 
+
+
+        var title = document.getElementById("title");
+        
+        var text = document.createElement("text");
+        text.classList.add('moduleDetails');
+        text.id = "Code";
+        text.innerText = responseModules.code;
+        title.appendChild(text);
+
+        text = document.createElement("text");
+        text.classList.add('moduleDetails');
+        text.id = "Staff";
+        text.innerText =  responseModules.staff + " | " + responseModules.email;
+        title.appendChild(text);
+        
+        text = document.createElement("text");
+        text.classList.add('moduleDetails');
+        text.id = "Credits";
+        text.innerText = "Credits   | " + responseModules.credits;
+        title.appendChild(text);
+
+        
+
+        
+
+        var myChart = makeStackedChart(responseActivity, ctx1, "bar", "Activities Overview", "Week");
+
+        var body = document.getElementById("viewingButtons");
+        var button;
+        var buttonBar = document.createElement("button");
+        buttonBar.classList.add('blockGraphs');
+        buttonBar.innerHTML = "By Grade %";
+        buttonBar.id = "gradeButton";
+        buttonBar.addEventListener ("click", function(){
+            myChart.destroy();
+            myChart = makePieChart(responseGrade, ctx1, "doughnut", "Activities Breakdown By Grade Percentage");
+        });
+        body.appendChild(buttonBar);
+
+        buttonBar = document.createElement("button");
+        buttonBar.classList.add('blockGraphs');
+        buttonBar.innerHTML = "By Hours";
+        buttonBar.id = "hoursButton";
+        buttonBar.addEventListener ("click", function(){
+            myChart.destroy();
+            myChart = makePieChart(responseHours, ctx1, "doughnut", "Activities Breakdown By Hourly Contribution");
+        });
+        body.appendChild(buttonBar);
+
+        buttonBar = document.createElement("button");
+        buttonBar.classList.add('blockGraphs');
+        buttonBar.innerHTML = "Bar Chart";
+        buttonBar.id = "barChartsButton";
+        buttonBar.addEventListener ("click", function(){
+            myChart.destroy();
+            myChart = makeStackedChart(responseActivity, ctx1, "bar", "Activities Overview", "Week");
+        });
+        body.appendChild(buttonBar);
+
+
+
+        body = document.getElementById("Credits");
+        buttonBar = document.createElement("button");
+        buttonBar.classList.add('blockBack');
+        buttonBar.innerHTML = "Back";
+        buttonBar.id = "backButton";
+        function buttonFunction(e){window.history.back();};
+        buttonBar.addEventListener ("click", buttonFunction);
+        body.appendChild(buttonBar);
+
+    </script>
+</body>
+</html>

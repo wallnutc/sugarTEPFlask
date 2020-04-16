@@ -1,0 +1,369 @@
+:root {
+    --background_color_one: #ffffff;
+    --background_color_two: #E5E5E5;
+    --menubar_colour: #C4C4C4;
+    --GraphButton_colour: #E8DAEF;
+    --GraphButton_border: #D5B8E3;
+    --T_colour1: #D4E6F1;
+}
+
+html, body {
+    height: 100%;
+    width: 100%;
+}
+
+body {
+    margin: 0;
+    background-color: var(--background_color_one);
+    font-family: 'Roboto', sans-serif;
+}
+
+#menu,
+.menu-link {
+    -webkit-transition: all 0.2s ease-out;
+    -moz-transition: all 0.2s ease-out;
+    -ms-transition: all 0.2s ease-out;
+    -o-transition: all 0.2s ease-out;
+    transition: all 0.2s ease-out;
+}
+
+.content {
+    margin: 0 auto;
+    padding: 0 2em;
+    max-width: 800px;
+    margin-bottom: 50px;
+    line-height: 1.6em;
+    margin-top: 180px;
+    margin-bottom: 100px;
+    margin-right: 150px;
+    margin-left: 150px;
+}
+#welcome{
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 21px;
+  color: #0F4C81;
+}
+#inputLabel{
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 200;
+  font-size: 12px;
+  line-height: 14px;
+  color: #000000;
+}
+
+#loginButton {
+margin-left: 150px;
+background: #0F4C81;
+border-radius: 4px;
+font-family: Roboto;
+font-style: normal;
+font-weight: normal;
+font-size: 18px;
+line-height: 21px;
+color: #FFFFFF;
+width: 6em;
+height: 2em;
+}
+
+#menu {
+    margin-right: -150px;
+    width: 700px;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1000;
+    background: #C4C4C4;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+.top_header {
+    background-color: var(--T_colour1);
+    min-height: 110px;
+}
+.blockBack {
+    display: inline;
+    font-family: Roboto;
+    border: 2px solid rgba(155, 60, 22, 0.274);
+    background-color: rgba(255, 213, 200, 0.719);
+    color: rgb(112, 12, 12);
+    padding: 10px 10px;
+    border-radius: 10px;
+    margin-left: 20px;
+    font-size: 14px;
+    cursor: pointer;
+    text-align: center;
+    }
+.blockBack:hover {
+    background-color: rgb(255, 255, 255);
+    color: rgb(129, 133, 129);
+    border: 2px solid rgb(236, 236, 236);
+}
+
+.block {
+    display: block;
+    width: 320px;
+    font-family: Roboto;
+    border: 2px solid var(--ModuleButton_border);
+    background-color: var(--ModuleButton_colour);
+    color: rgb(12, 27, 112);
+    padding: 20px 10px;
+    border-radius: 10px;
+    font-size: 14px;
+    cursor: pointer;
+    text-align: left;
+  }
+  .block:hover {
+    background-color: rgb(255, 255, 255);
+    color: rgb(129, 133, 129);
+    border: 2px solid rgb(236, 236, 236);
+  }
+  .listpad {
+    padding: 0px;
+    margin: 1px;
+  }
+
+.blockGraphs {
+    display: block;
+    font-family: Roboto;
+    border: 2px solid var(--GraphButton_border);
+    background-color: var(--GraphButton_colour);
+    color: rgb(40, 112, 12);
+    padding: 20px 10px;
+    border-radius: 10px;
+    font-size: 14px;
+    cursor: pointer;
+    text-align: left;
+    display: inline;
+  }
+  .blockGraphs:hover {
+    background-color: rgb(255, 255, 255);
+    color: rgb(129, 133, 129);
+    border: 2px solid rgb(236, 236, 236);
+    margin-left: 1px;
+    margin-right: 1px;
+  }
+.clockContainer{
+    position:absolute;
+    top: 0px;
+    left: 0px;
+    margin: 0px;
+    width:50px;
+    height:50px;
+}
+
+.updateContainer{
+    position:absolute;
+    top: 670px;
+    left: 400px;
+
+    border-radius: 10px;
+    width:240px;
+    height:300px;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 18px;
+    line-height: 21px;
+}
+.updateBox {
+    width: 100px;
+    height: 30px;
+    background: rgba(9, 233, 1, 0.39);
+    border: 2px solid #00d335;
+    margin-bottom: 10px;
+    margin-left: 0px;
+    border-radius: 10px;
+    text-align: center;
+    color:  #008d23;
+  }
+.viewingModule{/* Viewing */
+    position: absolute;
+    width: 62px;
+    height: 21px;
+    left: 400px;
+    top: 262px;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 18px;
+    line-height: 21px;
+    /* identical to box height */
+
+
+    color: #000000;}
+
+.viewingCoordinator{/* Viewing */
+
+
+    position: absolute;
+    width: 900px;
+    height: 60px;
+    left: 522px;
+    top: 138px;
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 18px;
+    line-height: 21px;
+    /* identical to box height */
+
+
+    color: #000000;}
+
+.moduleDetails{/* Modules */
+
+
+    position: relative;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 18px;
+    line-height: 21px;
+    margin-top: 5px;
+    /* identical to box height */
+    display: block;
+    color: #000000;}
+
+.modules{/* Modules */
+
+
+    position: absolute;
+    height: 21px;
+    left: 57px;
+    top: 214px;
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 18px;
+    line-height: 21px;
+    text-align: left;
+    /* identical to box height */
+    color: #000000;}
+
+.activities{/* Modules */
+
+
+    position: absolute;
+    height: 21px;
+    left: 57px;
+    top: 274px;
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 24px;
+    line-height: 21px;
+    text-align: left;
+    /* identical to box height */
+    color: #000000;}
+.staffemail{/* Modules */
+
+
+    position: absolute;
+    height: 21px;
+    left: 57px;
+    top: 155px;
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 18px;
+    line-height: 21px;
+    /* identical to box height */
+
+
+    color: #000000;}
+.program_view{/* Program view */
+
+
+    position: absolute;
+    height: 42px;
+    left: 57px;
+    top: 130px;
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 36px;
+    line-height: 42px;
+
+    color: #000000;}
+
+
+.chart_contain_Coordinator{/* Rectangle 64 */
+    position: absolute;
+    width: 1000px;
+    height: 890px;
+    left: 430px;
+    top: 257px;}
+
+.chart_contain_Module{/* Rectangle 64 */
+    position: absolute;
+    width: 900px;
+    height: 890px;
+    left: 477px;
+    top: 233px;
+    border: 2px solid rgba(206, 206, 206, 0);
+    background: rgba(147, 171, 250, 0);}
+
+.canvas2{
+    width:100%;
+    height:50%;
+    position:relative;
+    left: 0;
+    top: 0;
+}
+
+.scroll-left {
+    height: 80px;	
+    overflow: hidden;
+    position: relative;
+    left: 100px;
+    top: 15px;
+    font-size: 60px;
+    color: rgb(255, 255, 255);
+   }
+   .scroll-left p {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    margin: 10px;
+    line-height: 50px;
+    text-align: center;
+    /* Starting position */
+    -moz-transform:translateX(100%);
+    -webkit-transform:translateX(100%);	
+    transform:translateX(100%);
+    /* Apply animation to this element */	
+    -moz-animation: scroll-left 15s linear infinite;
+    -webkit-animation: scroll-left 15s linear infinite;
+    animation: scroll-left 15s linear infinite;
+   }
+   /* Move it (define the animation) */
+   @-moz-keyframes scroll-left {
+    0%   { -moz-transform: translateX(100%); }
+    100% { -moz-transform: translateX(-100%); }
+   }
+   @-webkit-keyframes scroll-left {
+    0%   { -webkit-transform: translateX(100%); }
+    100% { -webkit-transform: translateX(-100%); }
+   }
+   @keyframes scroll-left {
+    0%   { 
+    -moz-transform: translateX(100%); /* Browser bug fix */
+    -webkit-transform: translateX(100%); /* Browser bug fix */
+    transform: translateX(100%); 		
+    }
+    100% { 
+    -moz-transform: translateX(-100%); /* Browser bug fix */
+    -webkit-transform: translateX(-100%); /* Browser bug fix */
+    transform: translateX(-100%); 
+    }
+   }

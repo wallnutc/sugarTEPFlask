@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" href="static/css/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <div id="layout">
+
+      <a href="#menu" id="menuLink" className="menu-link">
+
+          <span></span>
+      </a>
+      <div id="main"><div class="header">
+
+
+          <div class="content">
+              <h2 id='welcome'>Welcome!</h2>
+
+              <form onSubmit={} method="post">
+                <label id='inputLabel' style="cursor:text">Username:</label><br/>
+                <input type="text" class="inputBox" id="fname"/><br/>
+                <label id='inputLabel' style="cursor:text">Password:</label><br/>
+                <input type="password" class="inputBox" id="lname"/><br/><br/>
+                <input type="button" id="loginButton" style="cursor:pointer"   value="Login"/>
+              </form>
+
+          </div>
+      </div>
+      <img src="static/login.PNG" style="position: absolute;
+      left: 608px;
+      top: 0px;">
+  </div>
+
+    <script>
+        document.getElementById("loginButton").onclick = function() {
+            if (document.getElementById("fname").value == "student"){
+                window.location.href='student';
+            }
+            if (document.getElementById("fname").value == "lecturer"){
+                window.location.href='lecturer';
+            }
+            else window.location.href='coordinator';
+        };
+    </script>
+</body>

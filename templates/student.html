@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Overview</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="static/css/style.css">
+    <script src="static/scripts/charts.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.js"></script>
+</head>
+<body>
+    <div class="top_header"><a style=" font-size: 50%; color: #ffffff; display: flex; justify-content: flex-end"></a>
+
+        <div class="scroll-left">
+            <p>My Student Overview </p>
+        </div>
+        <div class="clockContainer">
+            <div class="clockContainer">
+                <img src="static/M.png" style="position: absolute; left: 0px; top: 0px; width: 90px; margin: 10px;">
+            </div>
+        </div>
+    </div>
+<div class="program_view"><p>{{courseName}}</p></div>
+<div class="modules" id="moduleListStart"><p>Core Modules</p></div>
+<div class="viewingCoordinator" id ="chartTitles"><p>Viewing</p></div>
+
+<div class="chart_contain_Coordinator">
+    <canvas id="Pie1" class="canvas2" style= "width: 100%;
+    height: 50%;" ></canvas>
+    <canvas id="Pie2" class="canvas2" style= "width: 100%;
+    height: 50%;" ></canvas>
+</div>
+
+<div id="calendar" style="position: absolute; left: 430px; width: 200px; top: 1200px;">
+    <iframe src="https://calendar.google.com/calendar/b/1/embed?height=600&amp;wkst=1&amp;bgcolor=%23ffffff&amp;ctz=Europe%2FDublin&amp;src=d2FsbG51dHRjaWFuMjAwOUBnbWFpbC5jb20&amp;src=cnMwZGZkaTc3aXJmdmp1bm5zazd2YnZnZjhAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ&amp;src=Yzc1c3AyZ3J0MTBrc3E5b3RqaGJ0Z24wNzhAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ&amp;src=YWRkcmVzc2Jvb2sjY29udGFjdHNAZ3JvdXAudi5jYWxlbmRhci5nb29nbGUuY29t&amp;src=OTUwYzRhNTEzNGJsYmdlcnNzc25odWk2bm9AZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ&amp;src=ZmhwOHF0NDJlNTA4bmczYWJiNjVicTBndThAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ&amp;src=aTI3ZzVsbHE0b2dodXRhYTdpc3JuYzZjZzRAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ&amp;src=ZW4uaXJpc2gjaG9saWRheUBncm91cC52LmNhbGVuZGFyLmdvb2dsZS5jb20&amp;src=ZW4uY2gjaG9saWRheUBncm91cC52LmNhbGVuZGFyLmdvb2dsZS5jb20&amp;src=Y2lhcmF3aHl0ZTBAZ21haWwuY29t&amp;color=%237986CB&amp;color=%238E24AA&amp;color=%23E4C441&amp;color=%237986CB&amp;color=%23795548&amp;color=%23616161&amp;color=%23C0CA33&amp;color=%237986CB&amp;color=%230B8043&amp;color=%23A79B8E" style="border:solid 1px #777" width="800" height="600" top="0" left="0" frameborder="0" scrolling="yes"></iframe>    
+</div>
+
+
+</body>
+</html>
+
+<script>
+        var canvas2 = document.getElementById("Pie1");
+        var canvas3 = document.getElementById("Pie2");
+        var ctx1 = canvas2.getContext("2d");
+        var ctx2 = canvas3.getContext("2d");
+        var responseModule = JSON.parse('{{ moduleStacked | tojson | safe}}');
+        var responseList = JSON.parse('{{ moduleList | tojson | safe}}');
+        var responseActivity = JSON.parse('{{ activityStacked | tojson | safe}}');
+        var responseModulePie = JSON.parse('{{ modulePie | tojson | safe}}');
+        var responseActivityPie = JSON.parse('{{ activityPie | tojson | safe}}');
+        var responseModuleStacked = JSON.parse('{{ totalModuleStack | tojson | safe}}');
+        function buttonFunction(e){location.href = "module" + e.target.id;}
+        var colorslist = ['rgba(199, 0, 57, 0.8)','rgba(255, 87, 51, 0.6)','rgba(255, 141, 26, 0.6)','rgba(237, 221, 83, 0.6)','rgba(87, 199, 133, 0.6)','rgba(0, 186, 173, 0.6)','rgba(42, 123, 155, 0.6)','rgba(61, 61, 107, 0.6)','rgba(81, 24, 73, 0.6)','rgba(144, 12, 63, 0.8)','rgba(63, 56, 68, 0.6)',];
+        var borderlist = ['rgba(199, 0, 57, 1)','rgba(255, 87, 51, 1)','rgba(255, 141, 26, 1)','rgba(237, 221, 83, 1)','rgba(173, 212, 92, 1)','rgba(87, 199, 133, 1)','rgba(0, 186, 173)','rgba(42, 123, 155, 1)','rgba(61, 61, 107, 1)','rgba(81, 24, 73, 1)','rgba(144, 12, 63, 1)','rgba(63, 56, 68, 1)',];
+        var body;
+        var button;
+        var myChart = makeStackedChart(responseActivity, ctx2, "bar", "Activities Overview", "Week");
+        var myChart2 = makeStackedChart(responseModule, ctx1, "bar", "Modules Overview", "Week");
+
+        console.log(responseModule);
+        console.log(responseModule.labels);
+        console.log(typeof(responseModule.labels));
+
+        for (var j = 0; j < responseList.module_ID.length; j ++){
+            var node = document.createElement("UL");   // Create a <li> node
+            button = document.createElement("button");
+            button.classList.add('block');
+            node.classList.add('listpad');
+            button.innerHTML = responseList.code[j] + " | " + responseList.name[j];
+            button.id = responseList.module_ID[j];
+            button.style.setProperty("--ModuleButton_colour", colorslist[j]);
+            button.style.setProperty("--ModuleBorder_colour", borderlist[j]);
+            button.addEventListener ("click", buttonFunction);
+
+            node.appendChild(button)
+
+            body = document.getElementById("moduleListStart");
+            body.appendChild(node);
+        } 
+
+        body = document.getElementById("chartTitles");
+
+        var buttonBar = document.createElement("button");
+        buttonBar.classList.add('blockGraphs');
+        buttonBar.innerHTML = "Bar Charts";
+        buttonBar.id = "barChartsButton";
+        buttonBar.addEventListener ("click", function(){
+            myChart.destroy();
+            myChart2.destroy();
+            ctx1 = canvas2.getContext("2d");
+            ctx2 = canvas3.getContext("2d");
+            myChart = makeStackedChart(responseActivity, ctx2, "bar", "Activities Overview", "Week");
+            myChart2 = makeStackedChart(responseModule, ctx1, "bar", "Modules Overview", "Week");
+        });
+        body.appendChild(buttonBar);
+
+        buttonBar = document.createElement("button");
+        buttonBar.classList.add('blockGraphs');
+        buttonBar.innerHTML = "Pie Charts";
+        buttonBar.id = "barChartsButton";
+        buttonBar.addEventListener ("click", function(){
+            myChart.destroy();
+            myChart2.destroy();
+            ctx1 = canvas2.getContext("2d");
+            ctx2 = canvas3.getContext("2d");
+            myChart2 = makePieChart(responseActivityPie, ctx2, "doughnut", "Activities Overview");
+            myChart = makePieChart(responseModulePie, ctx1, "doughnut", "Modules Overview");
+        });
+        body.appendChild(buttonBar);
+
+        buttonBar = document.createElement("button");
+        buttonBar.classList.add('blockGraphs');
+        buttonBar.innerHTML = "Total Charts";
+        buttonBar.id = "totalChartsButton";
+        buttonBar.addEventListener ("click", function(){
+            myChart.destroy();
+            myChart2.destroy();
+            ctx1 = canvas2.getContext("2d");
+            myChart = makeStackedChart(responseModuleStacked, ctx1, "bar", "Total Hours Contributed by Each Module", "Module ID");
+        });
+        body.appendChild(buttonBar);
+    </script>
