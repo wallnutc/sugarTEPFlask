@@ -1,10 +1,61 @@
 import mysql.connector
 from flask import Flask, render_template, url_for, redirect, request
-import simplejson as json
+#import simplejson as json
+import json
+from json import JSONEncoder
+import datetime
 from decimal import Decimal
 app = Flask(__name__)
 TOTAL_WEEKS = 33
 courseID = 1
+
+class DateTimeEncoder(JSONEncoder):
+        #Override the default method
+        def default(self, obj):
+            if isinstance(obj, datetime.date):
+                return obj.isoformat()
+            if isinstance(obj, datetime.timedelta):
+                return str(obj)
+
+@app.route("/")
+@app.route("/login")
+def login():
+  return render_template("login.html")
+
+
+@app.route("/studentdata<string:studentID>")
+def studentdata(studentID):
+
+  mydb = mysql.connector.connect(
+    host="localhost",
+    user="cian",
+    database="modulerdatabase",
+    auth_plugin='mysql_native_password'
+  )
+  cur = mydb.cursor()
+  json_data = []
+  cur.execute("SELECT course_ID FROM Students WHERE student_ID = %s ", (studentID,))
+  courseID = cur.fetchall()
+  courseID = str(courseID[0][0])
+  cur.execute("SELECT at.activity_type, m.module_code, m.module_name, s.staff_name, a.activity_name, a.start_date, a.end_date, a.module_value, a.grading, a.activity_description, a.hours, u.hours FROM Activities AS a LEFT JOIN Modules as m ON (m.module_ID = a.module_ID) LEFT JOIN Activity_Type as at ON (at.activity_type_ID = a.activity_type_ID) LEFT JOIN Staff as s ON (s.staff_ID = m.staff_ID) LEFT JOIN Student_Progress as u ON (u.student_ID = %s AND u.activity_ID = a.activity_ID) WHERE course_ID = %s", (studentID,courseID))
+  activity_list = cur.fetchall()
+  cur.execute("SELECT  at.activity_type, m.module_code, m.module_name, s.staff_name, c.class_location, c.class_name, c.start_time, c.end_time, d.day, c.class_description FROM Classes AS c LEFT JOIN Modules as m ON (m.module_ID = c.module_ID) LEFT JOIN Days as d ON (c.class_day = d.day_ID) LEFT JOIN Activity_Type as at ON (at.activity_type_ID = c.activity_type_ID) LEFT JOIN Staff as s ON (s.staff_ID = m.staff_ID) WHERE course_ID = %s", (courseID,))
+  class_list = cur.fetchall()
+
+  activity_keys = ["activityType", "module_code" , "module_name", "module_lecturer", "title", "start_date", "due_date", "grade_percentage", "grading_description", "description", "estimated_time", "time_spent"]
+  class_keys = ["activityType", "module_code" , "module_name", "module_lecturer", "location", "title", "start_time", "end_time","day", "description"]
+  
+  data = []
+  for item in activity_list:
+    data.append(dict(zip(activity_keys, item)))
+  json_data.append(data)
+  data = []
+  for item in class_list:
+    data.append(dict(zip(class_keys, item)))
+  json_data.append(data) 
+  return json.dumps(json_data, indent=4, cls=DateTimeEncoder)
+
+
 def makeStackedWeeksJSON(row_values, modules_values):  
   json=[] 
   json_values = []
@@ -194,10 +245,7 @@ def makePieBarJSON(module_values, module_names):
   return json[0]
 
 
-@app.route("/")
-@app.route("/login")
-def login():
-  return render_template("login.html")
+
 
 @app.route('/module<string:moduleID>')
 def module(moduleID):
@@ -398,3 +446,6 @@ def coordinatorGraphs():
 #    database="mvroso$ModulerDatabase",
 #    auth_plugin='mysql_native_password'
 #  )
+
+if __name__ == '__main__':
+    app.run(debug=True)
