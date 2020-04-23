@@ -1,4 +1,3 @@
-
 fetch("http://127.0.0.1:5000/timelineModuleGraphs")
     .then(res => res.json())
     .then(function(out){
