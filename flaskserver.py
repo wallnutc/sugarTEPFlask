@@ -11,6 +11,8 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
 
+connection_config_dict = {'host': 'localhost','user' : 'cian','database' :'modulerdatabase','auth_plugin' :'mysql_native_password'}
+#connection_config_dict = {'host': 'mvroso.mysql.pythonanywhere-services.com','user' : 'mvroso','password' : '1234abcd', 'database' :'mvroso$ModulerDatabase','auth_plugin' :'mysql_native_password'}
 
 
 class DateTimeEncoder(JSONEncoder):
@@ -33,12 +35,7 @@ def login():
 
 @app.route("/studentdata<string:studentID>")
 def studentdata(studentID):
-  mydb = mysql.connector.connect(
-    host="localhost",
-    user="cian",
-    database="modulerdatabase",
-    auth_plugin='mysql_native_password'
-  )
+  mydb = mysql.connector.connect(**connection_config_dict)
   cur = mydb.cursor()
   json_data = []
   cur.execute("SELECT course_ID FROM Students WHERE student_ID = %s ", (studentID,))
@@ -81,12 +78,7 @@ def timelineData(values):
 
 @app.route("/timelineModuleGraphs")
 def coordinatorGraphs():
-  mydb = mysql.connector.connect(
-    host="localhost",
-    user="cian",
-    database="modulerdatabase",
-    auth_plugin='mysql_native_password'
-  )
+  mydb = mysql.connector.connect(**connection_config_dict)
   courseID = 1
   cur = mydb.cursor()
   json_data = []
@@ -116,14 +108,7 @@ def coordinatorGraphs():
   return response
   
 
-#
-#  mydb = mysql.connector.connect(
-#    host="mvroso.mysql.pythonanywhere-services.com",
-#    user="mvroso",
-#    password="1234abcd",
-#    database="mvroso$ModulerDatabase",
-#    auth_plugin='mysql_native_password'
-#  )
+
 
 if __name__ == '__main__':
     app.run(debug=True)
