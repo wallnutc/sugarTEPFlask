@@ -1,1 +1,7 @@
 flaskenv
+templates/*
+static/*
+
+_pycache_
+
+dataNodes.docx

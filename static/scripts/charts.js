@@ -1,11 +1,10 @@
-fetch("http://127.0.0.1:5000/timelineModuleGraphs")
+fetch("http://127.0.0.1:5000/timelineByCourse1")
     .then(res => res.json())
     .then(function(out){
-    const data = out[0];
-    const schema = out[1];
-    
-    console.log(schema)
-    console.log(data)
+    const data = out[1];
+    const schema = out[2];
+    const binning = out[3];
+    console.log(binning);
     const dataStore = new FusionCharts.DataStore();
     const dataSource = {
       chart: {},
@@ -21,7 +20,8 @@ fetch("http://127.0.0.1:5000/timelineModuleGraphs")
           plot: [
             {
               value: "Hours",
-              type: "column"
+              type: "column",
+              aggregation: "sum"
             }
           ],
           title: "Hours Count",
@@ -29,7 +29,10 @@ fetch("http://127.0.0.1:5000/timelineModuleGraphs")
             suffix: " Hours"
           }
         }
-      ]
+      ],
+      xAxis: {
+        binning: binning
+      }
     };
     dataSource.data = dataStore.createDataTable(data, schema);
   
@@ -41,4 +44,6 @@ fetch("http://127.0.0.1:5000/timelineModuleGraphs")
       dataSource: dataSource
     }).render();
   });
+
+
   
