@@ -9,13 +9,7 @@ app = Flask(__name__)
 TOTAL_WEEKS = 33
 courseID = 1
 
-class DateTimeEncoder(JSONEncoder):
-        #Override the default method
-        def default(self, obj):
-            if isinstance(obj, datetime.date):
-                return obj.isoformat()
-            if isinstance(obj, datetime.timedelta):
-                return str(obj)
+
 
 @app.route("/")
 @app.route("/login")
