@@ -4,21 +4,32 @@
     <title>Test Charts</title>
 </head>
 <body>
-    <div id="buttonarea"><p>Update Feedback</p> </div>
+    <div id="buttonarea"><p>Please Don't Press Me Unless You Are Cian</p> </div>
 </body>
 
 <script>
     var body = document.getElementById("buttonarea");
     button = document.createElement("button");
     button.innerHTML = "Press Me";
+
+    
     var data = {
-        activityType: "1", 
-        activityID: "1", 
-        questions: ["1","1","1","1"],
-        answers: ["10","3","2","6"]
+        classID:"3",
     };
+
+
     function buttonFunction(e){
-        fetch("/updateFeedback", {
+
+
+        var data = {
+            classID:"3",
+            moduleID: "9",
+            name: "0",
+            description: "0",
+            date:"2019-10-24",
+            activities: [2,3]
+        };
+        fetch("/updateClass", {
                     method: "POST", 
                     cache: "no-cache",
                     body: JSON.stringify(data),
@@ -26,7 +37,7 @@
                 }).then(res => {
                     console.log("Request complete! response:", res);
                 });
-        }
+        }	
     button.addEventListener ("click", buttonFunction);
     body.appendChild(button);
 </script>
