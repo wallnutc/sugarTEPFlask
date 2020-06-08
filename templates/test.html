@@ -11,24 +11,27 @@
     var body = document.getElementById("buttonarea");
     button = document.createElement("button");
     button.innerHTML = "Press Me";
-
     
     var data = {
-        classID:"3",
-    };
+            classID: "1",
+			date: "2018-10-01",
+			note: "Lorem Ipsum"
+        };	
 
 
     function buttonFunction(e){
 
-
         var data = {
-            classID:"3",
+            classID:"33",
             moduleID: "9",
-            name: "0",
+            name: "lecture 15",
             description: "0",
-            date:"2019-10-24",
-            activities: [2,3]
-        };
+            date:"2019-03-15",
+            activities: [53,51],
+            lecturer: 9,
+        };	
+
+
         fetch("/updateClass", {
                     method: "POST", 
                     cache: "no-cache",

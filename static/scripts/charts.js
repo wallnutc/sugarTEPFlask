@@ -151,7 +151,7 @@ function pieModule(moduleID,label,type,container){
 };
 
 function nestedPieCourse(courseID,label,container){
-  var url = "http://mvroso.pythonanywhere.com/nestedPieByCourse" + courseID.toString()
+  var url = "/nestedPieByCourse" + courseID.toString()
   fetch(url)
       .then(res => res.json())
       .then(function(out){
@@ -171,8 +171,8 @@ function nestedPieCourse(courseID,label,container){
           theme: "fusion",
           plottooltext:"<b>$label</b> contributed <b>$value hours</b>, which was <b>$percentValue</b> of <b>$category.label</b>",
           showLegend: "1",
-          showLabels: "0",
-          highlightParentPieSlices: "0",
+          showLabels: "1",
+          highlightParentPieSlices: "1",
           highlightChildPieSlices: "1"
         },
         category: data
